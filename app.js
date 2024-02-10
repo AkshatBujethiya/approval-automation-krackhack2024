@@ -49,9 +49,9 @@ else numberOfProxies = 0;
  * Controllers (route handlers).
  */
 const homeController = require('./controllers/home');
-const userController = require('./controllers/user');
 const portalController = require('./controllers/portal');
-
+const addRequestController = require('./controllers/addRequest');
+const adminController = require('./controllers/admin');
 /**
  * API keys and Passport configuration.
  */
@@ -69,9 +69,14 @@ console.log(
  * Connect to MongoDB.
  */
 mongoose.set('strictQuery', false);
-mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true}).then(()=>{
-  console.log('mongodb connected');
-});
+mongoose
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log('mongodb connected');
+  });
 mongoose.connection.on('error', (err) => {
   console.error(err);
   console.log(
@@ -83,6 +88,7 @@ mongoose.connection.on('error', (err) => {
 /**
  * Express configuration.
  */
+
 app.set('host', process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0');
 app.set('port', process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080);
 app.set('views', path.join(__dirname, 'views'));
@@ -93,6 +99,7 @@ app.use(compression());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 app.use(limiter);
 app.use(
   session({
@@ -182,48 +189,10 @@ app.use(
 /**
  * Primary app routes.
  */
-app.get('/', homeController.index);
-app.get('/login', userController.getLogin);
-app.post('/login', userController.postLogin);
 app.use('/', portalController);
-app.get('/logout', userController.logout);
-app.get('/forgot', userController.getForgot);
-app.post('/forgot', userController.postForgot);
-app.get('/reset/:token', userController.getReset);
-app.post('/reset/:token', userController.postReset);
-app.get('/signup', userController.getSignup);
-app.post('/signup', userController.postSignup);
-app.get(
-  '/account/verify',
-  passportConfig.isAuthenticated,
-  userController.getVerifyEmail
-);
-app.get(
-  '/account/verify/:token',
-  passportConfig.isAuthenticated,
-  userController.getVerifyEmailToken
-);
-app.get('/account', passportConfig.isAuthenticated, userController.getAccount);
-app.post(
-  '/account/profile',
-  passportConfig.isAuthenticated,
-  userController.postUpdateProfile
-);
-app.post(
-  '/account/password',
-  passportConfig.isAuthenticated,
-  userController.postUpdatePassword
-);
-app.post(
-  '/account/delete',
-  passportConfig.isAuthenticated,
-  userController.postDeleteAccount
-);
-app.get(
-  '/account/unlink/:provider',
-  passportConfig.isAuthenticated,
-  userController.getOauthUnlink
-);
+app.use('/', homeController);
+app.use('/', addRequestController);
+app.use('/', adminController);
 
 /**
  * OAuth authentication routes. (Sign in)

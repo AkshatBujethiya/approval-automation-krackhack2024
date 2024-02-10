@@ -1,0 +1,30 @@
+<%- layout('layouts/boilerplate') %>
+    <div class="box">
+    <h1 class="main_heading">REQUEST FORM</h1>
+        <p>REQUEST TYPE: 
+            <select name="REQUEST_type" id="REQUEST_type" required>
+                <option value="NON-MOENTRY QUERY">NON-MOENTRY QUERY</option>
+                <option value="MOENTRY QUERY">MOENTRY QUERY</option>
+                
+            </select>
+        </p>
+        <p id="ram">
+            AMOUNT(INR/-)*: <input type="number"  id="MONEY" required placeholder="9000"> 
+        </p>
+        <p>
+            TITLE: <textarea name="TITLE" id="TITLE" cols="100" rows="1" placeholder="eg.XY"></textarea>
+        </p>
+        <p id="ram">
+            DESCRIPTION: <textarea name="DESCRIPTION" id="DESCRIPTION" cols="100" rows="2" placeholder="eg.we need 10000 to purchase following items for next event"></textarea>
+        </p>
+        <p>
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <label for="fileInput">CHOOSE FILE::</label>
+                <input type="file" id="fileInput" name="fileInput" accept=".txt, .pdf, .doc, .docx">
+            </form>
+        </p>
+        <p>
+            <input type="submit" value="SUBMIT">
+        </p>
+    </div>
+ 

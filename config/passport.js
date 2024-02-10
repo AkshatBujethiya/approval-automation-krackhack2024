@@ -1,14 +1,10 @@
 const passport = require('passport');
 const refresh = require('passport-oauth2-refresh');
 const axios = require('axios');
-const { Strategy: LocalStrategy } = require('passport-local');
 const { OAuth2Strategy: GoogleStrategy } = require('passport-google-oauth');
-const { OAuthStrategy } = require('passport-oauth');
-const { OAuth2Strategy } = require('passport-oauth');
 const _ = require('lodash');
 const moment = require('moment');
-
-const User = require('../models/User');
+const User = require('../models/user');
 
 passport.serializeUser((user, done) => {
   done(null, user.id);

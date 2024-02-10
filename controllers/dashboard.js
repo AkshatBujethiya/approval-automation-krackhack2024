@@ -19,3 +19,5 @@ dashboardController.get(':usertype/dashboard', (req, res) => {
     res.redirect('/');
   }
 });
+
+module.exports = dashboardController;
