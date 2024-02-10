@@ -1,12 +1,10 @@
 <%- layout('layouts/boilerplate') %>
     <div class="d-flex justify-content-center align-items-center vh-100">
-        <div class="d-flex flex-column align-items-center justify-content-between border p-5 mt-2 mb-4 border-bottom h-50 w-25">
-            <h3><%= user %> Portal</h3>
-            <h3>Sign in</h3>
-            <form method="POST"><input type="hidden" name="_csrf" />
-                <div class="form-group">
-                    <div class="offset-md-3 col-md-7 pl-2 d-grid gap-2"><a class="btn btn-block btn-google btn-social" href="/auth/google"><i class="fab fa-google fa-xs"></i>Sign in with Google</a></div>
-                </div>
-            </form>
+        <div class="d-flex flex-column align-items-center justify-content-between border mt-2 mb-4 border-bottom h-50 w-25">
+            <div class="d-flex justify-content-between align-items-center h-25 w-100 bg-secondary">
+                <img src="/iitmandilogo.png" class="h-100 w-25">
+                <h3 class="p-5"><%= user %> Portal</h3>
+            </div>
+            <a href="/auth/google"><button class="btn btn-primary mb-5"><i class="fa-brands fa-google me-1"></i> Sign in with Google</button></a>
         </div>
     </div>
