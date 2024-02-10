@@ -3,7 +3,7 @@ const portalRoute = Router();
 
 portalRoute.get('/login/:user', (req, res) => {
   user = req.params.user;
-  res.send(`This is ${user} page`);
+  res.render('login', { user: user });
 });
 
 module.exports = portalRoute;
