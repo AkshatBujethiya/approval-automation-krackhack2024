@@ -1,6 +1,13 @@
 <%- layout('layouts/boilerplate') %>
     <form method="post" action="/admin" enctype="application/x-www-form-urlencoded">
         <input name="email" placeholder="email" required>
-        <input name="type" placeholder="type" required>
+        <select name="type" required>
+            <option value="" disabled selected>Select user type</option>
+            <option>Club</option>
+            <option>Club FA</option>
+            <option>Society FA</option>
+            <option>Chair SAP</option>
+            <option>Dean Students</option>
+        </select>
         <button type="submit">Submit</button>
     </form>

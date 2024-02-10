@@ -1,30 +1,32 @@
-<%- layout('layouts/boilerplate') %>
-    <div class="box">
-    <h1 class="main_heading">REQUEST FORM</h1>
-        <p>REQUEST TYPE: 
-            <select name="REQUEST_type" id="REQUEST_type" required>
-                <option value="NON-MOENTRY QUERY">NON-MOENTRY QUERY</option>
-                <option value="MOENTRY QUERY">MOENTRY QUERY</option>
-                
-            </select>
-        </p>
-        <p id="ram">
-            AMOUNT(INR/-)*: <input type="number"  id="MONEY" required placeholder="9000"> 
-        </p>
-        <p>
-            TITLE: <textarea name="TITLE" id="TITLE" cols="100" rows="1" placeholder="eg.XY"></textarea>
-        </p>
-        <p id="ram">
-            DESCRIPTION: <textarea name="DESCRIPTION" id="DESCRIPTION" cols="100" rows="2" placeholder="eg.we need 10000 to purchase following items for next event"></textarea>
-        </p>
-        <p>
-            <form action="/upload" method="post" enctype="multipart/form-data">
-                <label for="fileInput">CHOOSE FILE::</label>
-                <input type="file" id="fileInput" name="fileInput" accept=".txt, .pdf, .doc, .docx">
-            </form>
-        </p>
-        <p>
-            <input type="submit" value="SUBMIT">
-        </p>
+<% layout('layouts/boilerplate')%>
+    <div class="flex flex-x">
+        <form method="POST" action="/addRequest" enctype="multipart/form-data">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Add a Request</h6>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" name="title" id="title" placeholder="Name">
+                    <label for="title">Request Title</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <textarea class="form-control" id="Desc" name="request_description" style="height: 150px;"></textarea>
+                    <label for="Desc">Request Details</label>
+                </div>
+                <div class="mb-3">
+                    <!-- <input class="form-control" type="file" id="image" name="image" value="" accept="image/*,application/pdf"> -->
+                    <label for="image" class="form-label">Add attachments</label>
+                    <input type="file" name="image" id="image" class="form-control" accept="image/*,application/pdf" required>
+                </div>
+                <div class="mb-3">
+                    <input type="checkbox">
+                    <label>Is request monetary? </label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input class="form-control" type="number" name="money" id="money">
+                    <label for="money">Amount Requested</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
     </div>
- 

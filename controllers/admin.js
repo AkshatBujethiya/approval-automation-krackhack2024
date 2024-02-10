@@ -12,11 +12,7 @@ adminRoute.post('/admin', (req, res) => {
     email: req.body.email,
     userType: req.body.type,
   });
-  newUser.save((err) => {
-    if (err) {
-      console.log(err);
-    }
-  });
+  newUser.save();
   res.redirect('/admin');
 });
 
