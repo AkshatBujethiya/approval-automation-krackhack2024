@@ -70,7 +70,10 @@ console.log(
 /**
  * Connect to MongoDB.
  */
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.set('strictQuery', false);
+mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true}).then(()=>{
+  console.log('mongodb connected');
+});
 mongoose.connection.on('error', (err) => {
   console.error(err);
   console.log(
