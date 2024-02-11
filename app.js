@@ -9,7 +9,6 @@ const bodyParser = require('body-parser');
 const logger = require('morgan');
 const errorHandler = require('errorhandler');
 const dotenv = require('dotenv');
-const MongoStore = require('connect-mongo');
 const flash = require('express-flash');
 const mongoose = require('mongoose');
 const passport = require('passport');
@@ -106,12 +105,6 @@ app.use(
     resave: true,
     saveUninitialized: true,
     secret: process.env.SESSION_SECRET,
-    // name: 'startercookie', // change the cookie name for additional security in production
-    // cookie: {
-    //   maxAge: 1209600000, // Two weeks in milliseconds
-    //   secure: false,
-    // },
-    // store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
   })
 );
 app.use(passport.initialize());
