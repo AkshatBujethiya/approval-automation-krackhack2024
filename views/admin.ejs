@@ -1,13 +1,108 @@
 <%- layout('layouts/boilerplate') %>
-    <form method="post" action="/admin" enctype="application/x-www-form-urlencoded">
-        <input name="email" placeholder="email" required>
-        <select name="type" required>
-            <option value="" disabled selected>Select user type</option>
-            <option>Club</option>
-            <option>Club FA</option>
-            <option>Society FA</option>
-            <option>Chair SAP</option>
-            <option>Dean Students</option>
-        </select>
-        <button type="submit">Submit</button>
-    </form>
+    <div class="d-flex align-items-center flex-column">
+        <h3>Add Users</h3>
+        <form method="post" action="/admin" enctype="application/x-www-form-urlencoded" class="d-flex flex-column">
+            <label for="type">User type:</label>
+            <select id="type" name="type" required class="mb-2">
+                <option>Club</option>
+                <option>Secretary</option>
+                <option>Club FA</option>
+                <option>Society FA</option>
+                <option>Chair SAP</option>
+                <option>Dean Students</option>
+            </select>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    <hr>
+    <h3>Users List</h3>
+    <h4>Clubs</h4>
+    <table class="border w-100">
+        <tr class="border">
+            <th class="border">Name</th>
+            <th class="border">Email</th>
+            <th class="border">Society</th>
+        </tr>
+        <% club.forEach((club)=>{ %>
+        <tr class="border">
+            <td class="border"><%= club.name %></td>
+            <td class="border"><%= club.email %></td>
+            <td class="border"><%= club.society %></td>
+        </tr>
+        <% }) %>
+    </table>
+    <h4>Secretary</h4>
+    <table class="border w-100">
+        <tr class="border">
+            <th class="border">Name</th>
+            <th class="border">Email</th>
+            <th class="border">Society</th>
+        </tr>
+        <% Secretary.forEach((secretary)=>{ %>
+        <tr class="border">
+            <td class="border"><%= secretary.name %></td>
+            <td class="border"><%= secretary.email %></td>
+            <td class="border"><%= secretary.society %></td>
+        </tr>
+        <% }) %>
+    </table>
+    <h4>Club FA</h4>
+    <table class="border w-100">
+        <tr class="border">
+            <th class="border">Name</th>
+            <th class="border">Email</th>
+            <th class="border">Society</th>
+        </tr>
+        <% Clubfa.forEach((clubfa)=>{ %>
+        <tr class="border">
+            <td class="border"><%= clubfa.name %></td>
+            <td class="border"><%= clubfa.email %></td>
+            <td class="border"><%= clubfa.society %></td>
+        </tr>
+        <% }) %>
+    </table>
+    <h4>Society FA</h4>
+    <table class="border w-100">
+        <tr class="border">
+            <th class="border">Name</th>
+            <th class="border">Email</th>
+            <th class="border">Society</th>
+        </tr>
+        <% Societyfa.forEach((societyfa)=>{ %>
+        <tr class="border">
+            <td class="border"><%= societyfa.name %></td>
+            <td class="border"><%= societyfa.email %></td>
+            <td class="border"><%= societyfa.society %></td>
+        </tr>
+        <% }) %>
+    </table>
+    <h4>Chair SAP</h4>
+    <table class="border w-100">
+        <tr class="border">
+            <th class="border">Name</th>
+            <th class="border">Email</th>
+            <th class="border">Society</th>
+        </tr>
+        <% Chairsap.forEach((chairsap)=>{ %>
+        <tr class="border">
+            <td class="border"><%= chairsap.name %></td>
+            <td class="border"><%= chairsap.email %></td>
+            <td class="border"><%= chairsap.society %></td>
+        </tr>
+        <% }) %>
+    </table>
+    <h4>Dean Students</h4>
+    <table class="border w-100">
+        <tr class="border">
+            <th class="border">Name</th>
+            <th class="border">Email</th>
+            <th class="border">Society</th>
+        </tr>
+        <% Deanstudents.forEach((deanstudents)=>{ %>
+        <tr class="border">
+            <td class="border"><%= deanstudents.name %></td>
+            <td class="border"><%= deanstudents.email %></td>
+            <td class="border"><%= deanstudents.society %></td>
+        </tr>
+        <% }) %>
+    </table>

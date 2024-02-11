@@ -8,7 +8,6 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const errorHandler = require('errorhandler');
-const lusca = require('lusca');
 const dotenv = require('dotenv');
 const MongoStore = require('connect-mongo');
 const flash = require('express-flash');
@@ -17,6 +16,7 @@ const passport = require('passport');
 const multer = require('multer');
 const rateLimit = require('express-rate-limit');
 const ejsMate = require('ejs-mate');
+const User = require('./models/user');
 
 const upload = multer({ dest: path.join(__dirname, 'uploads') });
 
@@ -116,28 +116,22 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+passport.use(User.createStrategy());
+passport.serializeUser(function (user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function (id, done) {
+  User.findById(id, function (err, user) {
+    done(err, user);
+  });
+});
+passport.use(passportConfig);
+
 app.use(flash());
 app.disable('x-powered-by');
 app.use((req, res, next) => {
   res.locals.user = req.user;
-  next();
-});
-app.use((req, res, next) => {
-  // After successful login, redirect back to the intended page
-  if (
-    !req.user &&
-    req.path !== '/login' &&
-    req.path !== '/signup' &&
-    !req.path.match(/^\/auth/) &&
-    !req.path.match(/\./)
-  ) {
-    req.session.returnTo = req.originalUrl;
-  } else if (
-    req.user &&
-    (req.path === '/account' || req.path.match(/^\/api/))
-  ) {
-    req.session.returnTo = req.originalUrl;
-  }
   next();
 });
 app.use(
@@ -190,21 +184,16 @@ app.use('/', adminController);
 app.get(
   '/auth/google',
   passport.authenticate('google', {
-    scope: [
-      'profile',
-      'email',
-      'https://www.googleapis.com/auth/drive',
-      'https://www.googleapis.com/auth/spreadsheets.readonly',
-    ],
+    scope: ['profile', 'email'],
     accessType: 'offline',
     prompt: 'consent',
   })
 );
 app.get(
   '/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/login' }),
+  passport.authenticate('google', { failureRedirect: '/' }),
   (req, res) => {
-    res.redirect('/:type/dashboard');
+    res.redirect('/');
   }
 );
 

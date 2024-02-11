@@ -1,22 +1,6 @@
 const passport = require('passport');
-const refresh = require('passport-oauth2-refresh');
-const axios = require('axios');
 const { OAuth2Strategy: GoogleStrategy } = require('passport-google-oauth');
-const _ = require('lodash');
-const moment = require('moment');
 const User = require('../models/user');
-
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser(async (id, done) => {
-  try {
-    return done(null, await User.findById(id));
-  } catch (error) {
-    return done(error);
-  }
-});
 
 /**
  * OAuth Strategy Overview
@@ -33,77 +17,35 @@ passport.deserializeUser(async (id, done) => {
  *       - Else create a new account.
  */
 
-/**
- * Sign in with Google.
- */
-const googleStrategyConfig = new GoogleStrategy(
+const callbackuri =
+  process.env.NODE_ENV === 'production'
+    ? process.env.CALLBACK_URL
+    : 'http://localhost:8080/auth/google/callback';
+const strategy = new GoogleStrategy(
   {
     clientID: process.env.GOOGLE_ID,
     clientSecret: process.env.GOOGLE_SECRET,
-    callbackURL: '/auth/google/callback',
-    passReqToCallback: true,
+    // callbackURL: "https://community-scrapeyard.herokuapp.com/auth/google/CS",
+    callbackURL: callbackuri,
+    userProfileUrl: 'https://www.googleapis.com.oauth2.v3.userinfo',
   },
-  async (req, accessToken, refreshToken, params, profile, done) => {
-    try {
-      if (req.user) {
-        const existingUser = await User.findOne({ google: profile.id });
-        if (existingUser && existingUser.id !== req.user.id) {
-          req.flash('errors', {
-            msg: 'There is already a Google account that belongs to you. Sign in with that account or delete it, then link it with your current account.',
-          });
-          return done(null, existingUser);
-        }
-        const user = await User.findById(req.user.id);
-        user.google = profile.id;
-        user.tokens.push({
-          kind: 'google',
-          accessToken,
-          accessTokenExpires: moment()
-            .add(params.expires_in, 'seconds')
-            .format(),
-          refreshToken,
-        });
-        user.profile.name = user.profile.name || profile.displayName;
-        user.profile.gender = user.profile.gender || profile._json.gender;
-        user.profile.picture = user.profile.picture || profile._json.picture;
-        await user.save();
-        req.flash('info', { msg: 'Google account has been linked.' });
-        return done(null, user);
+  function (accessToken, refreshToken, profile, cb) {
+    User.findOrCreate(
+      { username: profile.id },
+      {
+        name: profile._json.name,
+        pic: profile._json.picture,
+        email: profile._json.email,
+      },
+      function (err, user) {
+        console.log(profile.displayName);
+        return cb(err, user);
       }
-      const existingUser = await User.findOne({ google: profile.id });
-      if (existingUser) {
-        return done(null, existingUser);
-      }
-      const existingEmailUser = await User.findOne({
-        email: profile.emails[0].value,
-      });
-      if (existingEmailUser) {
-        req.flash('errors', {
-          msg: 'There is already an account using this email address. Sign in to that account and link it with Google manually from Account Settings.',
-        });
-        return done(null, existingEmailUser);
-      }
-      const user = new User();
-      user.email = profile.emails[0].value;
-      user.google = profile.id;
-      user.tokens.push({
-        kind: 'google',
-        accessToken,
-        accessTokenExpires: moment().add(params.expires_in, 'seconds').format(),
-        refreshToken,
-      });
-      user.profile.name = profile.displayName;
-      user.profile.gender = profile._json.gender;
-      user.profile.picture = profile._json.picture;
-      await user.save();
-      return done(null, user);
-    } catch (err) {
-      return done(err);
-    }
+    );
   }
 );
-passport.use('google', googleStrategyConfig);
-refresh.use('google', googleStrategyConfig);
+
+module.exports = strategy;
 
 /**
  * Login Required middleware.
@@ -113,63 +55,4 @@ exports.isAuthenticated = (req, res, next) => {
     return next();
   }
   res.redirect('/login');
-};
-
-/**
- * Authorization Required middleware.
- */
-exports.isAuthorized = async (req, res, next) => {
-  const provider = req.path.split('/')[2];
-  const token = req.user.tokens.find((token) => token.kind === provider);
-  if (token) {
-    if (
-      token.accessTokenExpires &&
-      moment(token.accessTokenExpires).isBefore(moment().subtract(1, 'minutes'))
-    ) {
-      if (token.refreshToken) {
-        if (
-          token.refreshTokenExpires &&
-          moment(token.refreshTokenExpires).isBefore(
-            moment().subtract(1, 'minutes')
-          )
-        ) {
-          return res.redirect(`/auth/${provider}`);
-        }
-        try {
-          const newTokens = await new Promise((resolve, reject) => {
-            refresh.requestNewAccessToken(
-              `${provider}`,
-              token.refreshToken,
-              (err, accessToken, refreshToken, params) => {
-                if (err) reject(err);
-                resolve({ accessToken, refreshToken, params });
-              }
-            );
-          });
-
-          req.user.tokens.forEach((tokenObject) => {
-            if (tokenObject.kind === provider) {
-              tokenObject.accessToken = newTokens.accessToken;
-              if (newTokens.params.expires_in)
-                tokenObject.accessTokenExpires = moment()
-                  .add(newTokens.params.expires_in, 'seconds')
-                  .format();
-            }
-          });
-
-          await req.user.save();
-          return next();
-        } catch (err) {
-          console.log(err);
-          return next();
-        }
-      } else {
-        return res.redirect(`/auth/${provider}`);
-      }
-    } else {
-      return next();
-    }
-  } else {
-    return res.redirect(`/auth/${provider}`);
-  }
 };
