@@ -37,8 +37,11 @@ portalRoute.get('/', async (req, res) => {
 });
 
 portalRoute.get('/login/:user', (req, res) => {
-  user = req.params.user;
-  res.render('login', { user: user });
+  if (req.isAuthenticated()) {
+    res.redirect('/');
+  } else {
+    res.render('login', { user: null });
+  }
 });
 
 portalRoute.get('/logout', function (req, res) {

@@ -52,12 +52,14 @@
             <th class="border">Name</th>
             <th class="border">Email</th>
             <th class="border">Society</th>
+            <th class="border">Club Name</th>
         </tr>
         <% Clubfa.forEach((clubfa)=>{ %>
         <tr class="border">
             <td class="border"><%= clubfa.name %></td>
             <td class="border"><%= clubfa.email %></td>
             <td class="border"><%= clubfa.society %></td>
+            <td class="border"><%= clubfa.club %></td>
         </tr>
         <% }) %>
     </table>
@@ -81,13 +83,11 @@
         <tr class="border">
             <th class="border">Name</th>
             <th class="border">Email</th>
-            <th class="border">Society</th>
         </tr>
         <% Chairsap.forEach((chairsap)=>{ %>
         <tr class="border">
             <td class="border"><%= chairsap.name %></td>
             <td class="border"><%= chairsap.email %></td>
-            <td class="border"><%= chairsap.society %></td>
         </tr>
         <% }) %>
     </table>
@@ -96,13 +96,11 @@
         <tr class="border">
             <th class="border">Name</th>
             <th class="border">Email</th>
-            <th class="border">Society</th>
         </tr>
         <% Deanstudents.forEach((deanstudents)=>{ %>
         <tr class="border">
             <td class="border"><%= deanstudents.name %></td>
             <td class="border"><%= deanstudents.email %></td>
-            <td class="border"><%= deanstudents.society %></td>
         </tr>
         <% }) %>
     </table>

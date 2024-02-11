@@ -106,12 +106,12 @@ app.use(
     resave: true,
     saveUninitialized: true,
     secret: process.env.SESSION_SECRET,
-    name: 'startercookie', // change the cookie name for additional security in production
-    cookie: {
-      maxAge: 1209600000, // Two weeks in milliseconds
-      secure: false,
-    },
-    store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
+    // name: 'startercookie', // change the cookie name for additional security in production
+    // cookie: {
+    //   maxAge: 1209600000, // Two weeks in milliseconds
+    //   secure: false,
+    // },
+    // store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
   })
 );
 app.use(passport.initialize());
@@ -172,7 +172,7 @@ app.use(
     { maxAge: 31557600000 }
   )
 );
-
+app.use(express.static('uploads'));
 /**
  * Primary app routes.
  */

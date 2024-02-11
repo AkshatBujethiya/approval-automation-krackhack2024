@@ -12,6 +12,8 @@ const requestSchema = new mongoose.Schema({
   chairsap_status: { type: Boolean },
   society: { type: String },
   club_name: { type: String },
+  upload: { type: String, default: '' },
+  uploadType: { type: String, default: '' },
 });
 
 const request = mongoose.model('request', requestSchema);
