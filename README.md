@@ -57,3 +57,6 @@ Clubs can keep track of where in process the request is in status
    node app.js
    ```
 10. Go to http://localhost:8080/
+<hr>
+
+If you have any issues, open a new issue
