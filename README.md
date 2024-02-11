@@ -3,6 +3,9 @@
 An automatic approval system to faciliate approval requests between clubs and student office fast and effectively.
 <hr>
 
+Link to Demo Video: [Drive Link](https://drive.google.com/file/d/1w2XfvVnAVx8iO2fdp1If1w2J0pmBWmhZ/view?usp=sharing)  [Youtube Link](https://youtu.be/OOsoA94cjyQ?feature=shared)
+
+
 
 Clubs/Secretaries can generate new requests
 ![Screenshot from 2024-02-11 22-08-04](https://github.com/AkshatBujethiya/approval-automation-krackhack2024/assets/123626914/4a2b0662-9009-460b-9e4c-e42283b79a57)
