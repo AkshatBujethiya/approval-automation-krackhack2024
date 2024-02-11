@@ -19,7 +19,10 @@
                             <%= request.email %>
                         </div>
                     </div>
-                    <a href=""><button class="btn btn-primary">View more</button></a>
+                    <form method="post" action="/request">
+                        <input name="id" value="<%= request._id %>" hidden>
+                        <button class="btn btn-primary">View more</button>
+                    </form>
                 </div>
             </div>
             <% }) %>
