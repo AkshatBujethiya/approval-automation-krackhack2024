@@ -1,23 +1,18 @@
 const { Router } = require('express');
 const dashboardController = Router();
-const account = require('../models/account');
+const request = require('../models/request');
 
-dashboardController.get(':usertype/dashboard', (req, res) => {
+dashboardController.get('/:usertype/dashboard', async (req, res) => {
   if (req.isAuthenticated()) {
-    user = req.user;
-    account.findOne(
-      { email: user.email, userType: req.params.usertype },
-      (err, found) => {
-        if (err) {
-          res.send('You are not Authorised');
-        } else {
-          res.send('Sucess');
-        }
-      }
-    );
+    req_results = await request.find({ email: req.user.email });
+    res.render('dashboard', { requests: req_results });
   } else {
     res.redirect('/');
   }
+});
+
+dashboardController.post('/request', (req, res) => {
+  body = req.body;
 });
 
 module.exports = dashboardController;

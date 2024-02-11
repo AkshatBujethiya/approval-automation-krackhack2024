@@ -48,14 +48,13 @@ else numberOfProxies = 0;
 /**
  * Controllers (route handlers).
  */
-const homeController = require('./controllers/home');
 const portalController = require('./controllers/portal');
 const addRequestController = require('./controllers/addRequest');
 const adminController = require('./controllers/admin');
+const dashboardController = require('./controllers/dashboard');
 /**
  * API keys and Passport configuration.
  */
-const passportConfig = require('./config/passport');
 
 /**
  * Create Express server.
@@ -101,6 +100,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 app.use(limiter);
+
 app.use(
   session({
     resave: true,
@@ -109,7 +109,7 @@ app.use(
     name: 'startercookie', // change the cookie name for additional security in production
     cookie: {
       maxAge: 1209600000, // Two weeks in milliseconds
-      secure: secureTransfer,
+      secure: false,
     },
     store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
   })
@@ -121,11 +121,14 @@ passport.serializeUser(function (user, done) {
   done(null, user.id);
 });
 
-passport.deserializeUser(function (id, done) {
-  User.findById(id, function (err, user) {
-    done(err, user);
-  });
+passport.deserializeUser(async (id, done) => {
+  try {
+    return done(null, await User.findById(id));
+  } catch (error) {
+    return done(error);
+  }
 });
+const passportConfig = require('./config/passport');
 passport.use(passportConfig);
 
 app.use(flash());
@@ -174,9 +177,9 @@ app.use(
  * Primary app routes.
  */
 app.use('/', portalController);
-app.use('/', homeController);
 app.use('/', addRequestController);
 app.use('/', adminController);
+app.use('/', dashboardController);
 
 /**
  * OAuth authentication routes. (Sign in)
@@ -185,8 +188,6 @@ app.get(
   '/auth/google',
   passport.authenticate('google', {
     scope: ['profile', 'email'],
-    accessType: 'offline',
-    prompt: 'consent',
   })
 );
 app.get(

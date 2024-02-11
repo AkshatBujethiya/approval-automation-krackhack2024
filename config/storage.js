@@ -6,7 +6,7 @@ var storage = multer.diskStorage({
   filename: function (req, file, cb) {
     cb(
       null,
-      req.body.owner_email +
+      req.user.email +
         '__' +
         String(Date.now()) +
         '.' +
