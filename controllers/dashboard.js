@@ -15,4 +15,7 @@ dashboardController.post('/request', (req, res) => {
   body = req.body;
 });
 
+dashboardController.get('/view',(req,res)=>{
+  res.render('desc_request');
+})
 module.exports = dashboardController;

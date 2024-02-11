@@ -21,6 +21,7 @@ adminRoute.get('/admin', async (req, res) => {
     Societyfa,
     Chairsap,
     Deanstudents,
+    user: null
   });
 });
 
@@ -30,7 +31,7 @@ adminRoute.post('/admin', (req, res) => {
 });
 
 adminRoute.get('/admin/add/:type', (req, res) => {
-  res.render('addUsers', { type: req.params.type });
+  res.render('addUsers', { type: req.params.type, user:null });
 });
 
 adminRoute.post('/admin/addClub', (req, res) => {
