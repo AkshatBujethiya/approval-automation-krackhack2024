@@ -70,12 +70,8 @@
     "passport-oauth": "^1.0.0",
     "passport-oauth2-refresh": "^2.2.0",
     "patch-package": "^8.0.0",
-    "paypal-rest-sdk": "^1.8.1",
-    "pug": "^3.0.2",
     "sass": "^1.69.3",
     "stripe": "^14.1.0",
-    "twilio": "^4.22.0",
-    "twitch-passport": "^1.0.6",
     "validator": "^13.11.0"
   },
   "devDependencies": {
