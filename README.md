@@ -2,8 +2,12 @@
 
 An automatic approval system to faciliate approval requests between clubs and student office fast and effectively.
 <hr>
+
+
 Clubs/Secretaries can generate new requests
-![Screenshot from 2024-02-11 21-57-48](https://github.com/AkshatBujethiya/approval-automation-krackhack2024/assets/123626914/1ac9f959-fab6-4348-9702-bb45ab6c32d0)
+![Screenshot from 2024-02-11 22-08-04](https://github.com/AkshatBujethiya/approval-automation-krackhack2024/assets/123626914/4a2b0662-9009-460b-9e4c-e42283b79a57)
+
+
 
 Corresponding Secretary/Club FA/Society FA/Student Office can approve or reject the request
 ![Screenshot from 2024-02-11 22-04-26](https://github.com/AkshatBujethiya/approval-automation-krackhack2024/assets/123626914/3abbfed2-f7b3-486f-835d-a2f0ae62d0d6)
@@ -21,7 +25,7 @@ Clubs can keep track of where in process the request is in status
 
 1. [Akshat Bujethiya](https://github.com/AkshatBujethiya)
 2. [Nishchay](https://github.com/nishchay2517)
-3. [Suman Deep](https://github.com/)
+3. [Suman Deep](https://github.com/b22241)
 
 <hr>
 
