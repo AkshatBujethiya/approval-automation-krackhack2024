@@ -10,6 +10,8 @@ const requestSchema = new mongoose.Schema({
   club_fa_status: { type: Boolean },
   society_fa_status: { type: Boolean },
   chairsap_status: { type: Boolean },
+  society: { type: String },
+  club_name: { type: String },
 });
 
 const request = mongoose.model('request', requestSchema);

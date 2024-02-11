@@ -8,20 +8,24 @@ const chairsap = require('../models/chairsap');
 const deanstudents = require('../models/deanstudents');
 
 adminRoute.get('/admin', async (req, res) => {
-  club = await Club.find({});
-  Clubfa = await clubfa.find({});
-  Secretary = await secretary.find({});
-  Societyfa = await societyfa.find({});
-  Chairsap = await chairsap.find({});
-  Deanstudents = await deanstudents.find({});
-  res.render('admin', {
-    club,
-    Clubfa,
-    Secretary,
-    Societyfa,
-    Chairsap,
-    Deanstudents,
-  });
+  if (req.isAuthenticated()) {
+    club = await Club.find({});
+    Clubfa = await clubfa.find({});
+    Secretary = await secretary.find({});
+    Societyfa = await societyfa.find({});
+    Chairsap = await chairsap.find({});
+    Deanstudents = await deanstudents.find({});
+    res.render('admin', {
+      club,
+      Clubfa,
+      Secretary,
+      Societyfa,
+      Chairsap,
+      Deanstudents,
+    });
+  } else {
+    res.redirect('/');
+  }
 });
 
 adminRoute.post('/admin', (req, res) => {

@@ -1,12 +1,59 @@
 const { Router } = require('express');
 const Request = require('../models/request');
+const Club = require('../models/club');
 const addFormRoute = Router();
 var upload = require('../config/storage');
 
-addFormRoute.get('/addRequest', (req, res) => {
-  user = req.params.user;
-  res.render('requestform');
+addFormRoute.get('/addRequest', async (req, res) => {
+  results = await Club.findOne({ email: req.user.email });
+  res.render('requestform', { results });
 });
+
+addFormRoute.get('/addRequestSec', async (req, res) => {
+  results = await Club.findOne({ email: req.user.email });
+  res.render('requestformsec', { results });
+});
+
+addFormRoute.post(
+  '/addRequestSec',
+  upload.array('attachments', 10),
+  (req, res) => {
+    data = req.body;
+    console.log(data);
+    if (!req.body.money) {
+      newRequest = new Request({
+        time: Date.now(),
+        title: data.title,
+        description: data.request_description,
+        email: req.user.email,
+        money_req: null,
+        secretary_status: true,
+        club_fa_status: false,
+        society_fa_status: false,
+        chairsap_status: false,
+        society: data.society,
+        club_name: data.club_name,
+      });
+      newRequest.save();
+    } else {
+      newRequest = new Request({
+        time: Date.now(),
+        title: data.title,
+        description: data.request_description,
+        email: req.user.email,
+        money_req: data.money,
+        secretary_status: true,
+        club_fa_status: false,
+        society_fa_status: false,
+        chairsap_status: false,
+        society: data.society,
+        club_name: data.club_name,
+      });
+      newRequest.save();
+    }
+    res.redirect('/');
+  }
+);
 
 addFormRoute.post(
   '/addRequest',
@@ -25,6 +72,8 @@ addFormRoute.post(
         club_fa_status: false,
         society_fa_status: false,
         chairsap_status: false,
+        society: data.society,
+        club_name: data.club_name,
       });
       newRequest.save();
     } else {
@@ -38,6 +87,8 @@ addFormRoute.post(
         club_fa_status: false,
         society_fa_status: false,
         chairsap_status: false,
+        society: data.society,
+        club_name: data.club_name,
       });
       newRequest.save();
     }
