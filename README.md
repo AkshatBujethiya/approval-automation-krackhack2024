@@ -4,7 +4,7 @@ An automatic approval system to faciliate approval requests between clubs and st
 <hr>
 
 Link to Demo Video: [Drive Link](https://drive.google.com/file/d/1w2XfvVnAVx8iO2fdp1If1w2J0pmBWmhZ/view?usp=sharing)  [Youtube Link](https://youtu.be/OOsoA94cjyQ?feature=shared)
-
+<hr>
 
 
 Clubs/Secretaries can generate new requests
