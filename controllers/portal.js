@@ -27,6 +27,8 @@ portalRoute.get('/', async (req, res) => {
       res.redirect('/Chairsap/dashboard');
     } else if (Deanstudents) {
       res.redirect('/Deanstudents/dashboard');
+    } else if (process.env.ADMIN_EMAIL === req.user.email) {
+      res.redirect('/admin');
     } else {
       res.redirect('/logout');
     }
@@ -40,7 +42,7 @@ portalRoute.get('/login/:user', (req, res) => {
   if (req.isAuthenticated()) {
     res.redirect('/');
   } else {
-    res.render('login', { user: null });
+    res.render('login', { user: null, type: req.params.user });
   }
 });
 
